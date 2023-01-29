@@ -1,10 +1,6 @@
-package pl.javastart.task.components;
+package pl.javastart.task.computer.component;
 
-import pl.javastart.task.exceptions.ComponentsBurnExceptions;
-import pl.javastart.task.logic.Component;
-import pl.javastart.task.logic.OverclockAble;
-
-public class Memory extends Component implements OverclockAble {
+public class Memory extends Component implements Overclockable {
     private static final int TEMPERATURE_INCREASE_AFTER_BOOST = 15;
     private static final int TEMPERATURE_FOR_MINIMUM_RAM_TIMING = 50;
     private static final int MAXIMUM_SAFE_TEMPERATURE_FOR_MEMORY = 70;
@@ -22,7 +18,12 @@ public class Memory extends Component implements OverclockAble {
 
     @Override
     public void overclock() {
-        setTiming();
+        int tempAfter = temperature + TEMPERATURE_INCREASE_AFTER_BOOST;
+        if (tempAfter >= MAXIMUM_SAFE_TEMPERATURE_FOR_MEMORY) {
+            throw new ComponentsBurnException("no way to boost memory anymore, because temperature will be too high");
+        }
+        timing += BOOST_TIMING_WITH_HUNDRED_MHZ;
+        temperature = tempAfter;
     }
 
     public int getTemperature() {
@@ -45,12 +46,8 @@ public class Memory extends Component implements OverclockAble {
         return timing;
     }
 
-    public void setTiming() {
-        if (temperature + TEMPERATURE_INCREASE_AFTER_BOOST >= MAXIMUM_SAFE_TEMPERATURE_FOR_MEMORY) {
-            throw new ComponentsBurnExceptions("no way to boost memory anymore, because temperature will be too high");
-        }
-        this.timing = timing + BOOST_TIMING_WITH_HUNDRED_MHZ;
-        setTemperature(temperature + TEMPERATURE_INCREASE_AFTER_BOOST);
+    private void setTiming(int timing) {
+        this.timing = timing;
     }
 
     @Override

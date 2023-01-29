@@ -1,10 +1,6 @@
-package pl.javastart.task.components;
+package pl.javastart.task.computer.component;
 
-import pl.javastart.task.exceptions.ComponentsBurnExceptions;
-import pl.javastart.task.logic.Component;
-import pl.javastart.task.logic.OverclockAble;
-
-public class Processor extends Component implements OverclockAble {
+public class Processor extends Component implements Overclockable {
     private static final int BOOST_TIMING_WITH_HUNDRED_MHZ = 100;
     private static final int MAXIMUM_SAFE_TEMPERATURE_FOR_PROCESSOR = 73;
     private static final int TEMPERATURE_INCREASE_AFTER_BOOST = 10;
@@ -20,7 +16,12 @@ public class Processor extends Component implements OverclockAble {
 
     @Override
     public void overclock() {
-        setMhz();
+        int tempAfter = temperature + TEMPERATURE_INCREASE_AFTER_BOOST;
+        if (tempAfter >= MAXIMUM_SAFE_TEMPERATURE_FOR_PROCESSOR) {
+            throw new ComponentsBurnException("no way to boost processor anymore, because temperature will be too high");
+        }
+        mhz += BOOST_TIMING_WITH_HUNDRED_MHZ;
+        temperature = tempAfter;
     }
 
     public int getTemperature() {
@@ -35,12 +36,8 @@ public class Processor extends Component implements OverclockAble {
         return mhz;
     }
 
-    private void setMhz() {
-        if ((temperature + TEMPERATURE_INCREASE_AFTER_BOOST) >= MAXIMUM_SAFE_TEMPERATURE_FOR_PROCESSOR) {
-            throw new ComponentsBurnExceptions("no way to boost processor anymore, because temperature will be too high");
-        }
-        this.mhz = mhz + BOOST_TIMING_WITH_HUNDRED_MHZ;
-        setTemperature(temperature + TEMPERATURE_INCREASE_AFTER_BOOST);;
+    private void setMhz(int mhz) {
+        this.mhz = mhz;
     }
 
     @Override

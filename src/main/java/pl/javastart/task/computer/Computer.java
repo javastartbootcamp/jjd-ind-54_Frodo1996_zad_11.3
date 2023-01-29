@@ -1,8 +1,8 @@
-package pl.javastart.task.logic;
+package pl.javastart.task.computer;
 
-import pl.javastart.task.components.HardDrive;
-import pl.javastart.task.components.Memory;
-import pl.javastart.task.components.Processor;
+import pl.javastart.task.computer.component.HardDrive;
+import pl.javastart.task.computer.component.Memory;
+import pl.javastart.task.computer.component.Processor;
 
 public class Computer {
     Memory memory;

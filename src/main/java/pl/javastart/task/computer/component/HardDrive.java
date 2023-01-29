@@ -1,6 +1,4 @@
-package pl.javastart.task.components;
-
-import pl.javastart.task.logic.Component;
+package pl.javastart.task.computer.component;
 
 public class HardDrive extends Component {
     private int capacity;

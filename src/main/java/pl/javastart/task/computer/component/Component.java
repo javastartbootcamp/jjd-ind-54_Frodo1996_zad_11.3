@@ -1,13 +1,6 @@
-package pl.javastart.task.logic;
-
-import pl.javastart.task.components.Processor;
-import pl.javastart.task.exceptions.ComponentsBurnExceptions;
+package pl.javastart.task.computer.component;
 
 public abstract class Component {
-    private static final int BOOST_TIMING_WITH_HUNDRED_MHZ = 100;
-    private static final int MAXIMUM_SAFE_TEMPERATURE_FOR_PROCESSOR = 70;
-    private static final int TEMPERATURE_INCREASE_AFTER_BOOST = 10;
-    Computer computer;
     private String model;
     private String producer;
     private String serialNumber;
